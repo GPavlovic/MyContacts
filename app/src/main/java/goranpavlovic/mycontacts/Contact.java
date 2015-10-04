@@ -1,9 +1,8 @@
 package goranpavlovic.mycontacts;
 
-/**
- * Created by Gogo on 6/24/2015.
- */
-public class Contact
+import java.io.Serializable;
+
+public class Contact implements Serializable
 {
     private String mName;
 
