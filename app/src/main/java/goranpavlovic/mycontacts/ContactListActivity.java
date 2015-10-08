@@ -35,26 +35,38 @@ public class ContactListActivity extends AppCompatActivity
         {
             temp = new Contact();
             temp.setName("John Doe" + i);
+            temp.emails = new ArrayList<String>();
+            temp.phoneNumbers = new ArrayList<String>();
+            temp.emails.add("fake" + i + "@fake.com");
+            temp.emails.add("fake" + i + "@fake2.com");
+            temp.phoneNumbers.add("519" + "-" + i);
+            temp.phoneNumbers.add("529" + "-" + i);
             mContacts.add(temp);
         }
 
-        ListView ContactList = (ListView)findViewById(R.id.contact_list_view);
+        ListView ContactList = (ListView) findViewById(R.id.contact_list_view);
         ContactList.setAdapter(new ContactAdapter(mContacts));
 
-        ContactList.setOnScrollListener(new AbsListView.OnScrollListener() {
+        ContactList.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
             int previousFirstItem = 0;
             boolean isHidden = false;
 
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(AbsListView view, int scrollState)
+            {
 
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (firstVisibleItem > previousFirstItem) {
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
+                if (firstVisibleItem > previousFirstItem)
+                {
                     getSupportActionBar().hide();
-                } else if (firstVisibleItem < previousFirstItem) {
+                }
+                else if (firstVisibleItem < previousFirstItem)
+                {
                     getSupportActionBar().show();
                 }
 
@@ -62,9 +74,11 @@ public class ContactListActivity extends AppCompatActivity
             }
         });
 
-        ContactList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ContactList.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+            {
                 Contact selectedContact = mContacts.get(position);
 
                 Intent i = new Intent(ContactListActivity.this, ViewContactActivity.class);
