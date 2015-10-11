@@ -19,6 +19,8 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 public class ViewContactActivity extends AppCompatActivity
@@ -27,7 +29,12 @@ public class ViewContactActivity extends AppCompatActivity
     public static final String EXTRA = "CVA_Contact"; //the extra used to pass the contact to the view
 
     private int mColour;
+    private int mContactPosition;
     private Contact mContact;
+    // UI
+    private TextView mContactNameTV;
+
+    private FieldsAdapter mUserFieldsAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,14 +43,13 @@ public class ViewContactActivity extends AppCompatActivity
         setContentView(R.layout.activity_view_contact);
 
         // Retrieve the passed contact
-        mContact = (Contact) getIntent().getSerializableExtra(EXTRA);
+        mContactPosition = getIntent().getIntExtra(EXTRA, 0);
+        mContact = ContactList.getInstance().get(mContactPosition);
 
         // Get UI elements
-        TextView contactNameTV = (TextView) findViewById(R.id.CVA_contact_name);
+        mContactNameTV = (TextView) findViewById(R.id.CVA_contact_name);
         RelativeLayout contactInfoLayout = (RelativeLayout) findViewById(R.id.CVA_contactinfo_header);
 
-        // Set the contact information
-        contactNameTV.setText(mContact.getName());
 
         Display display = getWindowManager().getDefaultDisplay();
         Point point = new Point();
@@ -66,7 +72,7 @@ public class ViewContactActivity extends AppCompatActivity
                 if (id == R.id.CVA_edit_contact)
                 {
                     Intent i = new Intent(ViewContactActivity.this, ContactEditActivity.class);
-                    i.putExtra(ContactEditActivity.EXTRA, mContact);
+                    i.putExtra(ContactEditActivity.EXTRA, mContactPosition);
                     startActivity(i);
                     return true;
                 }
@@ -77,12 +83,29 @@ public class ViewContactActivity extends AppCompatActivity
 
         // Fetch the listview that holds the user fields
         ListView userFields = (ListView) findViewById(R.id.CVA_fields);
-        userFields.setAdapter(new FieldsAdapter(mContact.emails, mContact.phoneNumbers));
+        mUserFieldsAdapter = new FieldsAdapter(mContact.emails, mContact.phoneNumbers);
+        userFields.setAdapter(mUserFieldsAdapter);
 
         // Create the palette in order to work the theme to match the user image
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ernie);
         Palette palette = Palette.generate(bitmap);
         mColour = palette.getDarkVibrantSwatch().getRgb();
+
+        updateUI();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+
+        updateUI();
+    }
+
+    private void updateUI()
+    {
+        mContactNameTV.setText(mContact.getName());
+        mUserFieldsAdapter.notifyDataSetChanged();
     }
 
     private class FieldsAdapter extends BaseAdapter

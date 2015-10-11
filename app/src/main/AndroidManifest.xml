@@ -20,7 +20,9 @@
             android:name=".ViewContactActivity"
             android:theme="@style/NoActionBar" >
         </activity>
-        <activity android:name=".ContactEditActivity" >
+        <activity
+            android:name=".ContactEditActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
         </activity>
     </application>
 

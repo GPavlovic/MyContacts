@@ -18,15 +18,13 @@ import java.util.ArrayList;
 
 public class ContactListActivity extends AppCompatActivity
 {
-    ArrayList<Contact> mContacts = new ArrayList<Contact>();
+    ContactList mContacts = ContactList.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact_list);
-
-        mContacts = new ArrayList<Contact>();
 
         // Add temp test contact
         Contact temp;
@@ -82,7 +80,7 @@ public class ContactListActivity extends AppCompatActivity
                 Contact selectedContact = mContacts.get(position);
 
                 Intent i = new Intent(ContactListActivity.this, ViewContactActivity.class);
-                i.putExtra(ViewContactActivity.EXTRA, selectedContact);
+                i.putExtra(ViewContactActivity.EXTRA, position);
                 startActivity(i);
             }
         });
