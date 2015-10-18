@@ -9,4 +9,7 @@
     <string name="label_phone_number">Phone Numbers</string>
     <string name="label_email_addresses">Email Addresses</string>
     <string name="label_add_new">Add New</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
